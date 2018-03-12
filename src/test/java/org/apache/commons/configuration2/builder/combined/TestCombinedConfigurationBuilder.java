@@ -483,12 +483,14 @@ public class TestCombinedConfigurationBuilder
         CombinedConfiguration cc = builder.getConfiguration();
         ConfigurationBuilder<? extends Configuration> subBuilder =
                 builder.getNamedBuilder(BUILDER_NAME);
+        int childBuilderCount = builder.getChildBuilders().size();
         defBuilder.reset();
         CombinedConfiguration cc2 = builder.getConfiguration();
         assertNotSame("No new configuration instance", cc, cc2);
         ConfigurationBuilder<? extends Configuration> subBuilder2 =
                 builder.getNamedBuilder(BUILDER_NAME);
         assertNotSame("No new sub builder instance", subBuilder, subBuilder2);
+        assertEquals("Number of child builders changed", childBuilderCount, builder.getChildBuilders().size());
     }
 
     /**
@@ -519,9 +521,14 @@ public class TestCombinedConfigurationBuilder
         BasicConfigurationBuilder<?> subBuilder =
                 (BasicConfigurationBuilder<?>) builder
                         .getNamedBuilder(BUILDER_NAME);
+        
+        int countChildren = builder.getChildBuilders().size();
+        
         subBuilder.reset();
         assertNotSame("Configuration not newly created", cc,
                 builder.getConfiguration());
+        
+        assertEquals("Number of child builders changed", countChildren, builder.getChildBuilders().size());
     }
 
     /**

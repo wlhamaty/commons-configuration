@@ -798,6 +798,7 @@ public class CombinedConfigurationBuilder extends BasicConfigurationBuilder<Comb
         setUpParentInterpolator(currentConfiguration, config);
 
         ConfigurationSourceData data = getSourceData();
+        data.cleanUp();
         data.createAndAddConfigurations(result, data.getOverrideSources());
         if (!data.getUnionSources().isEmpty())
         {
@@ -1442,6 +1443,7 @@ public class CombinedConfigurationBuilder extends BasicConfigurationBuilder<Comb
                         changeListener);
             }
             namedBuilders.clear();
+            allBuilders.clear();
         }
 
         /**

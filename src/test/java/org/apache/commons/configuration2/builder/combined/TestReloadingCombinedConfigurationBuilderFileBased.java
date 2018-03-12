@@ -41,6 +41,7 @@ import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.configuration2.io.FileHandler;
 import org.apache.commons.configuration2.reloading.AlwaysReloadingDetector;
+import org.apache.commons.configuration2.reloading.CombinedReloadingController;
 import org.apache.commons.configuration2.reloading.RandomReloadingDetector;
 import org.apache.commons.configuration2.reloading.ReloadingDetector;
 import org.apache.commons.configuration2.sync.ReadWriteSynchronizer;
@@ -204,6 +205,8 @@ public class TestReloadingCombinedConfigurationBuilderFileBased
                 config.getInt(testProperty(1)));
         assertEquals("Wrong initial value (2)", 0,
                 config.getInt(testProperty(2)));
+        
+        int subControllerCount =((CombinedReloadingController)builder.getReloadingController()).getSubControllers().size();
 
         writeReloadFile(xmlConf1, 1, 1);
         builder.getReloadingController().checkForReloading(null);
@@ -219,6 +222,10 @@ public class TestReloadingCombinedConfigurationBuilderFileBased
                 config.getInt(testProperty(1)));
         assertEquals("Updated value not reloaded (2)", 2,
                 config.getInt(testProperty(2)));
+        
+        int subControllerCount2 =((CombinedReloadingController)builder.getReloadingController()).getSubControllers().size();
+        assertEquals("Wrong number of reload subcontrollers", subControllerCount, subControllerCount2);
+        
     }
 
     /**
